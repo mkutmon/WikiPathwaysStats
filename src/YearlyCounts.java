@@ -96,20 +96,20 @@ public class YearlyCounts {
 	 * finds all pathways for a specific species ignores tutorial pathways
 	 */
 	public void getPathways() throws Exception {
-		WSPathwayInfo[] list = client.listPathways(org);
-
-		// exclude tutorial pathways
-		WSCurationTag[] tutorial = client
-				.getCurationTagsByName("Curation:Tutorial");
-		Set<String> tutorialPathways = new HashSet<String>();
-		for (WSCurationTag t : tutorial) {
-			tutorialPathways.add(t.getPathway().getId());
-		}
-		for (WSPathwayInfo i : list) {
-			if (!tutorialPathways.contains(i.getId())) {
-				inclPathways.add(i.getId());
-			}
-		}
+		inclPathways = Utils.getPathways(client, org);
+//		WSPathwayInfo[] list = client.listPathways(org);
+//
+//		// exclude tutorial pathways
+//		WSCurationTag[] tutorial = client.getCurationTagsByName("Curation:Tutorial");
+//		Set<String> tutorialPathways = new HashSet<String>();
+//		for (WSCurationTag t : tutorial) {
+//			tutorialPathways.add(t.getPathway().getId());
+//		}
+//		for (WSPathwayInfo i : list) {
+//			if (!tutorialPathways.contains(i.getId())) {
+//				inclPathways.add(i.getId());
+//			}
+//		}
 	}
 
 	/**
@@ -117,18 +117,19 @@ public class YearlyCounts {
 	 * does not yet occur in pathway folder
 	 */
 	private void downloadPathwayFiles() throws Exception {
-		for (Integer year : snapShots.keySet()) {
-			for (String id : snapShots.get(year).keySet()) {
-				Integer rev = snapShots.get(year).get(id);
-				File f = new File(pathwayFolder, id + "_" + rev + ".gpml");
-				if (!f.exists()) {
-					WSPathway p = client.getPathway(id, rev);
-					PrintWriter out = new PrintWriter(f);
-					out.print(p.getGpml());
-					out.close();
-				}
-			}
-		}
+//		for (Integer year : snapShots.keySet()) {
+//			for (String id : snapShots.get(year).keySet()) {
+//				Integer rev = snapShots.get(year).get(id);
+//				File f = new File(pathwayFolder, id + "_" + rev + ".gpml");
+//				if (!f.exists()) {
+//					WSPathway p = client.getPathway(id, rev);
+//					PrintWriter out = new PrintWriter(f);
+//					out.print(p.getGpml());
+//					out.close();
+//				}
+//			}
+//		}
+		Utils.downloadPathwayFiles(snapShots, pathwayFolder, client);
 	}
 
 	/**
@@ -137,69 +138,71 @@ public class YearlyCounts {
 	 * to be included in the yearly snapshot
 	 */
 	private void getHistory() throws Exception {
-		File output = new File("snapshots_" + org.shortName() + "_" + today + ".txt");
-		if (!output.exists()) {
-			Calendar c = Calendar.getInstance();
-			c.set(2003, 1, 1, 0, 0, 0);
-
-			for (int i = startYear; i <= endYear; i++) {
-				snapShots.put(i, new HashMap<String, Integer>());
-			}
-			for (String pwId : inclPathways) {
-				WSPathwayHistory hist = client.getPathwayHistory(pwId, c.getTime());
-				for (WSHistoryRow row : hist.getHistory()) {
-					// rows always come in order (oldest revision first)
-					Integer rev = Integer.parseInt(row.getRevision());
-					Integer y = Integer.parseInt(row.getTimestamp().substring(0, 4));
-					Integer m = Integer.parseInt(row.getTimestamp().substring(4, 6));
-					
-					if (y < startYear) {
-						for (int i = startYear; i <= endYear; i++) {
-							snapShots.get(i).put(pwId, rev);
-						}
-					} else {
-						if (m <= 9) {
-							for (int i = y; i <= endYear; i++) {
-								snapShots.get(i).put(pwId, rev);
-							}
-						} else {
-							int year = y + 1;
-							for (int i = year; i <= endYear; i++) {
-								snapShots.get(i).put(pwId, rev);
-							}
-						}
-					}
-				}
-			}
-			
-			// write snapshot which can be reused when running the script again
-			BufferedWriter writer = new BufferedWriter(new FileWriter(output));
-			writer.write("Year\tCount pathways\tPathway revisions");
-			for (Integer year : snapShots.keySet()) {
-				writer.write("\n" + year + "\t" + snapShots.get(year).size()
-						+ "\t" + snapShots.get(year));
-			}
-			writer.close();
-		} else {
-			BufferedReader reader = new BufferedReader(new FileReader(output));
-			String line;
-			// read header
-			reader.readLine();
-			while ((line = reader.readLine()) != null) {
-				String[] buffer = line.split("\t");
-				Integer year = Integer.parseInt(buffer[0]);
-				snapShots.put(year, new HashMap<String, Integer>());
-				String[] buffer2 = buffer[2].replace("{", "").replace("}", "")
-						.split(", ");
-				for (String s : buffer2) {
-					String[] buffer3 = s.split("=");
-					String wpId = buffer3[0];
-					Integer rev = Integer.parseInt(buffer3[1]);
-					snapShots.get(year).put(wpId, rev);
-				}
-			}
-			reader.close();
-		}
+//		snapShots = new YearlySnapshots(client, org, startYear, endYear, today).getYearlySnapShots(inclPathways);
+		snapShots = Utils.getHistory(today, org, startYear, endYear, inclPathways, client);
+//		File output = new File("snapshots_" + org.shortName() + "_" + today + ".txt");
+//		if (!output.exists()) {
+//			Calendar c = Calendar.getInstance();
+//			c.set(2003, 1, 1, 0, 0, 0);
+//
+//			for (int i = startYear; i <= endYear; i++) {
+//				snapShots.put(i, new HashMap<String, Integer>());
+//			}
+//			for (String pwId : inclPathways) {
+//				WSPathwayHistory hist = client.getPathwayHistory(pwId, c.getTime());
+//				for (WSHistoryRow row : hist.getHistory()) {
+//					// rows always come in order (oldest revision first)
+//					Integer rev = Integer.parseInt(row.getRevision());
+//					Integer y = Integer.parseInt(row.getTimestamp().substring(0, 4));
+//					Integer m = Integer.parseInt(row.getTimestamp().substring(4, 6));
+//					
+//					if (y < startYear) {
+//						for (int i = startYear; i <= endYear; i++) {
+//							snapShots.get(i).put(pwId, rev);
+//						}
+//					} else {
+//						if (m <= 9) {
+//							for (int i = y; i <= endYear; i++) {
+//								snapShots.get(i).put(pwId, rev);
+//							}
+//						} else {
+//							int year = y + 1;
+//							for (int i = year; i <= endYear; i++) {
+//								snapShots.get(i).put(pwId, rev);
+//							}
+//						}
+//					}
+//				}
+//			}
+//			
+//			// write snapshot which can be reused when running the script again
+//			BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+//			writer.write("Year\tCount pathways\tPathway revisions");
+//			for (Integer year : snapShots.keySet()) {
+//				writer.write("\n" + year + "\t" + snapShots.get(year).size()
+//						+ "\t" + snapShots.get(year));
+//			}
+//			writer.close();
+//		} else {
+//			BufferedReader reader = new BufferedReader(new FileReader(output));
+//			String line;
+//			// read header
+//			reader.readLine();
+//			while ((line = reader.readLine()) != null) {
+//				String[] buffer = line.split("\t");
+//				Integer year = Integer.parseInt(buffer[0]);
+//				snapShots.put(year, new HashMap<String, Integer>());
+//				String[] buffer2 = buffer[2].replace("{", "").replace("}", "")
+//						.split(", ");
+//				for (String s : buffer2) {
+//					String[] buffer3 = s.split("=");
+//					String wpId = buffer3[0];
+//					Integer rev = Integer.parseInt(buffer3[1]);
+//					snapShots.get(year).put(wpId, rev);
+//				}
+//			}
+//			reader.close();
+//		}
 	}
 
 	private void calculateCounts() throws IOException {
@@ -300,16 +303,12 @@ public class YearlyCounts {
 	public static void main(String[] args) throws Exception {
 		YearlyCounts yc = new YearlyCounts();
 		yc.getPathways();
-		System.out.println("[INFO]\t" + yc.inclPathways.size()
-				+ " pathways included in the analysis.");
-		System.out
-				.println("[INFO]\tRetrieving history for included pathways (this might take a while).");
+		System.out.println("[INFO]\t" + yc.inclPathways.size() + " pathways included in the analysis.");
+		System.out.println("[INFO]\tRetrieving history for included pathways (this might take a while).");
 		yc.getHistory();
-		System.out
-				.println("[INFO]\tDownload GPML files for included pathways (this might take a while.)");
+		System.out.println("[INFO]\tDownload GPML files for included pathways (this might take a while.)");
 		yc.downloadPathwayFiles();
-		System.out
-				.println("[INFO]\tCreate unified xref sets for all included pathways.");
+		System.out.println("[INFO]\tCreate unified xref sets for all included pathways.");
 		yc.calculateCounts();
 	}
 }
