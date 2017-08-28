@@ -40,7 +40,8 @@ public class MetaboliteGrowth {
 	private List<String> inclPathways;
 	
 //	private String metDb = "/home/msk/Data/BridgeDb/metabolites_20170709.bridge";
-	private String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170709.bridge";
+//	private String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170709.bridge";
+	private String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170826.bridge";
 
 	private IDMapper metMapper;
 	
