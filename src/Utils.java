@@ -65,6 +65,28 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * downloads all GPML files for each pathway revision needed only if file
+	 * does not yet occur in pathway folder
+	 */
+	public static void downloadPathwayFilesQuarterly(Map<Integer, Map<Integer, Map<String, Integer>>> snapShots, File pathwayFolder, WikiPathwaysClient client) throws Exception {
+		System.out.println("downloading pathway files");
+		for (Integer year : snapShots.keySet()) {
+			for(Integer quarter : snapShots.get(year).keySet()) {
+				for (String id : snapShots.get(year).get(quarter).keySet()) {
+					Integer rev = snapShots.get(year).get(quarter).get(id);
+					File f = new File(pathwayFolder, id + "_" + rev + ".gpml");
+					if (!f.exists()) {
+						WSPathway p = client.getPathway(id, rev);
+						PrintWriter out = new PrintWriter(f);
+						out.print(p.getGpml());
+						out.close();
+					}
+				}
+			}
+		}
+	}
+	
 	public static Map<Integer, Map<String, Integer>> getHistory(String today, Organism org, int startYear, int endYear, List<String> pathways, WikiPathwaysClient client) throws Exception {
 		System.out.println("retrieving pathway history");
 		Map<Integer, Map<String, Integer>> snapShots = new HashMap<Integer, Map<String, Integer>>();
@@ -126,6 +148,113 @@ public class Utils {
 					String wpId = buffer3[0];
 					Integer rev = Integer.parseInt(buffer3[1]);
 					snapShots.get(year).put(wpId, rev);
+				}
+			}
+			reader.close();
+		}
+		return snapShots;
+	}
+	
+	public static Map<Integer, Map<Integer, Map<String, Integer>>> getQuarterlySnapshots(String today, Organism org, int startYear, int endYear, List<String> pathways, WikiPathwaysClient client) throws Exception {
+		Map<Integer, Map<Integer, Map<String, Integer>>> snapShots = new HashMap<Integer, Map<Integer, Map<String, Integer>>>();
+		File output = new File("snapshotsQ_" + org.shortName() + "_" + today + ".txt");
+		if (!output.exists()) {
+			Calendar c = Calendar.getInstance();
+			c.set(2003, 1, 1, 0, 0, 0);
+
+			for (int i = startYear; i <= endYear; i++) {
+				Map<Integer, Map<String, Integer>> quarters = new HashMap<Integer, Map<String, Integer>>();
+				quarters.put(3, new HashMap<>());
+				quarters.put(6, new HashMap<>());
+				quarters.put(9, new HashMap<>());
+				quarters.put(12, new HashMap<>());
+				snapShots.put(i, quarters);
+			}
+			for (String pwId : pathways) {
+				WSPathwayHistory hist = client.getPathwayHistory(pwId, c.getTime());
+				for (WSHistoryRow row : hist.getHistory()) {
+					// rows always come in order (oldest revision first)
+					Integer rev = Integer.parseInt(row.getRevision());
+					Integer y = Integer.parseInt(row.getTimestamp().substring(0, 4));
+					Integer m = Integer.parseInt(row.getTimestamp().substring(4, 6));
+					
+					if (y < startYear) {
+						for (int i = startYear; i <= endYear; i++) {
+							for(Integer month : snapShots.get(i).keySet()) {
+								snapShots.get(i).get(month).put(pwId, rev);
+							}
+						}
+					} else {
+						if(m <= 3) {
+							for (int i = y; i <= endYear; i++) {
+								snapShots.get(i).get(3).put(pwId, rev);
+								snapShots.get(i).get(6).put(pwId, rev);
+								snapShots.get(i).get(9).put(pwId, rev);
+								snapShots.get(i).get(12).put(pwId, rev);
+							}
+						} else if(m <= 6) {
+							snapShots.get(y).get(6).put(pwId, rev);
+							snapShots.get(y).get(9).put(pwId, rev);
+							snapShots.get(y).get(12).put(pwId, rev);
+							for (int i = (y+1); i <= endYear; i++) {
+								snapShots.get(i).get(3).put(pwId, rev);
+								snapShots.get(i).get(6).put(pwId, rev);
+								snapShots.get(i).get(9).put(pwId, rev);
+								snapShots.get(i).get(12).put(pwId, rev);
+							}
+						} else if(m <= 9) {
+							snapShots.get(y).get(9).put(pwId, rev);
+							snapShots.get(y).get(12).put(pwId, rev);
+							for (int i = (y+1); i <= endYear; i++) {
+								snapShots.get(i).get(3).put(pwId, rev);
+								snapShots.get(i).get(6).put(pwId, rev);
+								snapShots.get(i).get(9).put(pwId, rev);
+								snapShots.get(i).get(12).put(pwId, rev);
+							}
+						} else if (m <= 12) {
+							snapShots.get(y).get(12).put(pwId, rev);
+							for (int i = (y+1); i <= endYear; i++) {
+								snapShots.get(i).get(3).put(pwId, rev);
+								snapShots.get(i).get(6).put(pwId, rev);
+								snapShots.get(i).get(9).put(pwId, rev);
+								snapShots.get(i).get(12).put(pwId, rev);
+							}
+						}
+					}
+				}
+			}
+			
+			// write snapshot which can be reused when running the script again
+			BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+			writer.write("Year\tQuarter\tCount pathways\tPathway revisions");
+			for (Integer year : snapShots.keySet()) {
+				writer.write("\n" + year + "\t3" + snapShots.get(year).get(3).size() + "\t" + snapShots.get(year).get(3));
+				writer.write("\n" + year + "\t6" + snapShots.get(year).get(6).size() + "\t" + snapShots.get(year).get(6));
+				writer.write("\n" + year + "\t9" + snapShots.get(year).get(9).size() + "\t" + snapShots.get(year).get(9));
+				writer.write("\n" + year + "\t12" + snapShots.get(year).get(12).size() + "\t" + snapShots.get(year).get(12));
+			}
+			writer.close();
+		} else {
+			BufferedReader reader = new BufferedReader(new FileReader(output));
+			String line;
+			// read header
+			reader.readLine();
+			while ((line = reader.readLine()) != null) {
+				String[] buffer = line.split("\t");
+				Integer year = Integer.parseInt(buffer[0]);
+				Integer quarter = Integer.parseInt(buffer[1]);
+				Map<Integer, Map<String, Integer>> quarters = new HashMap<Integer, Map<String, Integer>>();
+				quarters.put(3, new HashMap<>());
+				quarters.put(6, new HashMap<>());
+				quarters.put(9, new HashMap<>());
+				quarters.put(12, new HashMap<>());
+				snapShots.put(year, quarters);
+				String[] buffer2 = buffer[3].replace("{", "").replace("}", "").split(", ");
+				for (String s : buffer2) {
+					String[] buffer3 = s.split("=");
+					String wpId = buffer3[0];
+					Integer rev = Integer.parseInt(buffer3[1]);
+					snapShots.get(year).get(quarter).put(wpId, rev);
 				}
 			}
 			reader.close();
