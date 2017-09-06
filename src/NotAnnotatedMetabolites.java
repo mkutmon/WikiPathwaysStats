@@ -21,6 +21,8 @@ import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.core.view.MIMShapes;
 import org.wikipathways.client.WikiPathwaysClient;
 
+import wp.nar2018.Utils;
+
 
 public class NotAnnotatedMetabolites {
 
@@ -40,12 +42,12 @@ public class NotAnnotatedMetabolites {
 
 		Class.forName("org.bridgedb.rdb.IDMapperRdb");
 		DataSourceTxt.init();
-		String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170709.bridge";
+		String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170826.bridge";
 		IDMapper metMapper = BridgeDb.connect("idmapper-pgdb:" + new File(metDb).getAbsolutePath());
 		
 		inclPathways = Utils.getPathways(client, org);
 		snapShots = Utils.getHistory(today, org, startYear, endYear, inclPathways, client);
-		File pathwayFolder = new File("pathways_" + today);
+		File pathwayFolder = new File("pathways");
 		pathwayFolder.mkdir();
 		Utils.downloadPathwayFiles(snapShots, pathwayFolder, client);
 		

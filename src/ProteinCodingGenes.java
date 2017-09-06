@@ -37,7 +37,8 @@ public class ProteinCodingGenes {
 		Date date = new Date();	
 		String today = dateFormat.format(date);
 		
-		File pathwayFolder = new File("pathways_" + today);
+		File pathwayFolder = new File("pathways");
+		pathwayFolder.mkdir();
 		Set<Xref> allEnsemblIds = new HashSet<Xref>();
 		for(WSPathwayInfo i : list) {
 			File p = new File(pathwayFolder, i.getId() + "_" + i.getRevision() + ".gpml");

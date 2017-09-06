@@ -32,6 +32,8 @@ import org.pathvisio.wikipathways.webservice.WSPathwayHistory;
 import org.pathvisio.wikipathways.webservice.WSPathwayInfo;
 import org.wikipathways.client.WikiPathwaysClient;
 
+import wp.nar2018.Utils;
+
 public class YearlyCounts {
 
 	private WikiPathwaysClient client;
@@ -89,7 +91,7 @@ public class YearlyCounts {
 		today = dateFormat.format(date);
 		
 		unifiedFolder = new File(unifiedFolderName + "_" + today);
-		pathwayFolder = new File("pathways_" + today);
+		pathwayFolder = new File("pathways");
 	}
 
 	/**

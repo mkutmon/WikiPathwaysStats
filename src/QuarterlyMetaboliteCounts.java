@@ -23,6 +23,8 @@ import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.core.view.MIMShapes;
 import org.wikipathways.client.WikiPathwaysClient;
 
+import wp.nar2018.Utils;
+
 public class QuarterlyMetaboliteCounts {
 
 	private String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170826.bridge";
@@ -63,7 +65,7 @@ public class QuarterlyMetaboliteCounts {
 		QuarterlyMetaboliteCounts mg = new QuarterlyMetaboliteCounts();
 		mg.inclPathways = Utils.getPathways(mg.client, mg.org);
 		mg.snapShots = Utils.getQuarterlySnapshots(mg.today, mg.org, mg.startYear, mg.endYear, mg.inclPathways, mg.client);
-		File pathwayFolder = new File("pathways_" + mg.today);
+		File pathwayFolder = new File("pathways");
 		pathwayFolder.mkdir();
 		Utils.downloadPathwayFilesQuarterly(mg.snapShots, pathwayFolder, mg.client);
 		

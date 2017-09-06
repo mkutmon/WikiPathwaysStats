@@ -25,6 +25,8 @@ import org.wikipathways.client.WikiPathwaysClient;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx.Snapshot;
 
+import wp.nar2018.Utils;
+
 
 
 public class MetaboliteGrowth {
@@ -69,7 +71,7 @@ public class MetaboliteGrowth {
 		MetaboliteGrowth mg = new MetaboliteGrowth();
 		mg.inclPathways = Utils.getPathways(mg.client, mg.org);
 		mg.snapShots = Utils.getHistory(mg.today, mg.org, mg.startYear, mg.endYear, mg.inclPathways, mg.client);
-		File pathwayFolder = new File("pathways_" + mg.today);
+		File pathwayFolder = new File("pathways");
 		pathwayFolder.mkdir();
 		Utils.downloadPathwayFiles(mg.snapShots, pathwayFolder, mg.client);
 		
