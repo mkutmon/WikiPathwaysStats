@@ -27,11 +27,11 @@ public class Utils {
 	/**
 	 * finds all pathways for a specific species ignores tutorial pathways
 	 */
-	public static List<String> getPathways(WikiPathwaysClient client, Organism org) throws Exception {
+	public static List<WSPathwayInfo> getPathways(WikiPathwaysClient client, Organism org) throws Exception {
 		System.out.println("get pathway list");
 		WSPathwayInfo[] list = client.listPathways(org);
 
-		List<String> inclPathways = new ArrayList<String>();
+		List<WSPathwayInfo> inclPathways = new ArrayList<WSPathwayInfo>();
 		// exclude tutorial pathways
 		WSCurationTag[] tutorial = client.getCurationTagsByName("Curation:Tutorial");
 		Set<String> tutorialPathways = new HashSet<String>();
@@ -40,7 +40,7 @@ public class Utils {
 		}
 		for (WSPathwayInfo i : list) {
 			if (!tutorialPathways.contains(i.getId())) {
-				inclPathways.add(i.getId());
+				inclPathways.add(i);
 			}
 		}
 		return inclPathways;
@@ -66,6 +66,16 @@ public class Utils {
 		}
 	}
 	
+	public static void downloadPathway(String id, int rev, WikiPathwaysClient client, File pathwayFolder) throws Exception {
+		File f = new File(pathwayFolder, id + "_" + rev + ".gpml");
+		if (!f.exists()) {
+			WSPathway p = client.getPathway(id, rev);
+			PrintWriter out = new PrintWriter(f);
+			out.print(p.getGpml());
+			out.close();
+		}
+	}
+	
 	/**
 	 * downloads all GPML files for each pathway revision needed only if file
 	 * does not yet occur in pathway folder
@@ -88,7 +98,7 @@ public class Utils {
 		}
 	}
 	
-	public static Map<Integer, Map<String, Integer>> getHistory(String today, Organism org, int startYear, int endYear, List<String> pathways, WikiPathwaysClient client) throws Exception {
+	public static Map<Integer, Map<String, Integer>> getHistory(String today, Organism org, int startYear, int endYear, List<WSPathwayInfo> pathways, WikiPathwaysClient client) throws Exception {
 		System.out.println("retrieving pathway history");
 		Map<Integer, Map<String, Integer>> snapShots = new HashMap<Integer, Map<String, Integer>>();
 		File output = new File("snapshots_" + org.shortName() + "_" + today + ".txt");
@@ -99,7 +109,8 @@ public class Utils {
 			for (int i = startYear; i <= endYear; i++) {
 				snapShots.put(i, new HashMap<String, Integer>());
 			}
-			for (String pwId : pathways) {
+			for (WSPathwayInfo info : pathways) {
+				String pwId = info.getId();
 				WSPathwayHistory hist = client.getPathwayHistory(pwId, c.getTime());
 				for (WSHistoryRow row : hist.getHistory()) {
 					// rows always come in order (oldest revision first)

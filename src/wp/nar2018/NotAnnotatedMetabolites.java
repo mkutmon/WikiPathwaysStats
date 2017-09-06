@@ -18,6 +18,7 @@ import org.pathvisio.core.model.ObjectType;
 import org.pathvisio.core.model.Pathway;
 import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.core.view.MIMShapes;
+import org.pathvisio.wikipathways.webservice.WSPathwayInfo;
 import org.wikipathways.client.WikiPathwaysClient;
 
 /**
@@ -33,7 +34,7 @@ public class NotAnnotatedMetabolites {
 		int endYear = Calendar.getInstance().get(Calendar.YEAR);
 		
 		WikiPathwaysClient client = new WikiPathwaysClient(new URL("http://webservice.wikipathways.org"));
-		List<String> inclPathways = new ArrayList<String>();
+		List<WSPathwayInfo> inclPathways = new ArrayList<WSPathwayInfo>();
 		Map<Integer, Map<String, Integer>> snapShots = new HashMap<Integer, Map<String, Integer>>();
 		Organism org = Organism.HomoSapiens;
 		
