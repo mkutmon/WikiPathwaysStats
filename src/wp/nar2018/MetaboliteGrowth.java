@@ -1,3 +1,5 @@
+package wp.nar2018;
+
 import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
@@ -21,6 +23,8 @@ import org.pathvisio.core.model.ObjectType;
 import org.pathvisio.core.model.Pathway;
 import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.core.view.MIMShapes;
+import org.pathvisio.wikipathways.webservice.WSPathway;
+import org.pathvisio.wikipathways.webservice.WSPathwayInfo;
 import org.wikipathways.client.WikiPathwaysClient;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx.Snapshot;
@@ -39,7 +43,7 @@ public class MetaboliteGrowth {
 	private Organism org = Organism.HomoSapiens;
 	// pathways to be included (all for selected species except Tutorial
 	// pathways)
-	private List<String> inclPathways;
+	private List<WSPathwayInfo> inclPathways;
 	
 //	private String metDb = "/home/msk/Data/BridgeDb/metabolites_20170709.bridge";
 //	private String metDb = "C:/Users/martina.kutmon/Data/BridgeDb/metabolites_20170709.bridge";
@@ -51,9 +55,11 @@ public class MetaboliteGrowth {
 	// revision)
 	private Map<Integer, Map<String, Integer>> snapShots;
 	
+	File pathwayFolder = new File("C:/Users/martina.kutmon/owncloud/Data/WikiPathways/pathways-cache/");
+	
 	public MetaboliteGrowth() throws Exception {
 		client = new WikiPathwaysClient(new URL("http://webservice.wikipathways.org"));
-		inclPathways = new ArrayList<String>();
+		inclPathways = new ArrayList<WSPathwayInfo>();
 		snapShots = new HashMap<Integer, Map<String, Integer>>();
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -67,71 +73,38 @@ public class MetaboliteGrowth {
 		metMapper = BridgeDb.connect("idmapper-pgdb:" + new File(metDb).getAbsolutePath());
 	}
 	
-	public static void main(String[] args) throws Exception {
-		MetaboliteGrowth mg = new MetaboliteGrowth();
-		mg.inclPathways = Utils.getPathways(mg.client, mg.org);
-		mg.snapShots = Utils.getHistory(mg.today, mg.org, mg.startYear, mg.endYear, mg.inclPathways, mg.client);
-		File pathwayFolder = new File("pathways");
+	public void run() throws Exception {
+		inclPathways = Utils.getPathways(client, org);
+		snapShots = Utils.getHistory(today, org, startYear, endYear, inclPathways, client);
+		
 		pathwayFolder.mkdir();
-		Utils.downloadPathwayFiles(mg.snapShots, pathwayFolder, mg.client);
+		Utils.downloadPathwayFiles(snapShots, pathwayFolder, client);
 		
 		System.out.println("calculate metabolite statistics");
 		Map<String, Set<Xref>> xrefs = new HashMap<String, Set<Xref>>();
-		for(Integer year : mg.snapShots.keySet()) {	
-			for(String pwId : mg.snapShots.get(year).keySet()) {
-				Integer rev = mg.snapShots.get(year).get(pwId);
+		for(Integer year : snapShots.keySet()) {	
+			for(String pwId : snapShots.get(year).keySet()) {
+				Integer rev = snapShots.get(year).get(pwId);
 				String key = pwId + "-" + rev;
 				if(!xrefs.containsKey(key)) {
 					xrefs.put(key, new HashSet<Xref>());
 					Pathway p = new Pathway();
-					try {
-						p.readFromXml(new File(pathwayFolder, pwId + "_" + rev + ".gpml"), false);
-						for(PathwayElement e : p.getDataObjects()) {
-							if(e.getObjectType().equals(ObjectType.DATANODE)) {
-								if(e.getDataNodeType().equals("Metabolite")) {
-									if(!e.getXref().getId().equals("") && e.getXref().getDataSource() != null) {
-										Set<Xref> res = mg.metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Wd"));
-										if(res.size() > 0) {
-											xrefs.get(key).addAll(res);
-										} else {
-											Set<Xref> resCe = mg.metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Ce"));
-											if(resCe.size() > 0) {
-												for(Xref x : resCe) {
-													if(x.getId().startsWith("CHEBI")) {
-														xrefs.get(key).add(x);
-													}
-												}
-											} else {
-												Set<Xref> resCh = mg.metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Ch"));
-												if(resCh.size() > 0) {
-													xrefs.get(key).addAll(resCh);
-												} else {
-													xrefs.get(key).add(e.getXref());
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					} catch(Exception e) {
-						
-					}
+					p.readFromXml(new File(pathwayFolder, pwId + "_" + rev + ".gpml"), false);
+					xrefs.get(key).addAll(getUniqueXrefs(p));
 				}
 			}
 		}
-		for(String id : xrefs.keySet()) {
-			System.out.println(id + "\t" + xrefs.get(id).size() + "\t" + xrefs.get(id));
-		}
+		
+//		printPathwayMetaboliteCounts(xrefs);
 		
 		Map<Integer, Set<Xref>> ids = new HashMap<Integer, Set<Xref>>();
-		for(Integer year : mg.snapShots.keySet()) {
+		for(Integer year : snapShots.keySet()) {
 			Set<Xref> uniqueXrefs = new HashSet<Xref>();
-			for(String pwId : mg.snapShots.get(year).keySet()) {
-				Integer rev = mg.snapShots.get(year).get(pwId);
-				String key = pwId + "-" + rev;
+			for(String pwId : snapShots.get(year).keySet()) {
+				String key = pwId + "-" + snapShots.get(year).get(pwId);
 				uniqueXrefs.addAll(xrefs.get(key));
 			}
+			
 			int wikidata = 0;
 			int chebi = 0;
 			int hmdb = 0;
@@ -155,7 +128,7 @@ public class MetaboliteGrowth {
 			ids.put(year, uniqueXrefs);
 		}
 		
-		for(int i = mg.startYear; i < mg.endYear; i++) {
+		for(int i = startYear; i < endYear; i++) {
 			Set<Xref> current = ids.get(i);
 			Set<Xref> next = ids.get(i+1);
 			
@@ -166,6 +139,50 @@ public class MetaboliteGrowth {
 			System.out.println(i + "\t" + (i+1) + "\t" + changed.size() + "\t" + changed);
 			
 		}
+	}
+	
+	private void printPathwayMetaboliteCounts(Map<String, Set<Xref>> xrefs) {
+		for(String id : xrefs.keySet()) {
+			System.out.println(id + "\t" + xrefs.get(id).size() + "\t" + xrefs.get(id));
+		}
+	}
+	
+	private Set<Xref> getUniqueXrefs(Pathway p) throws Exception {
+		Set<Xref> set = new HashSet<Xref>();
+		for(PathwayElement e : p.getDataObjects()) {
+			if(e.getObjectType().equals(ObjectType.DATANODE)) {
+				if(e.getDataNodeType().equals("Metabolite")) {
+					if(!e.getXref().getId().equals("") && e.getXref().getDataSource() != null) {
+						Set<Xref> res = metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Wd"));
+						if(res.size() > 0) {
+							set.addAll(res);
+						} else {
+							Set<Xref> resCe = metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Ce"));
+							if(resCe.size() > 0) {
+								for(Xref x : resCe) {
+									if(x.getId().startsWith("CHEBI")) {
+										set.add(x);
+									}
+								}
+							} else {
+								Set<Xref> resCh = metMapper.mapID(e.getXref(), DataSource.getExistingBySystemCode("Ch"));
+								if(resCh.size() > 0) {
+									set.addAll(resCh);
+								} else {
+									set.add(e.getXref());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return set;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		MetaboliteGrowth mg = new MetaboliteGrowth();
+		mg.run();
 	}
 
 }

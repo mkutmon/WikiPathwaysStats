@@ -1,3 +1,5 @@
+package wp.nar2018;
+
 import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
@@ -21,6 +23,7 @@ import org.pathvisio.core.model.ObjectType;
 import org.pathvisio.core.model.Pathway;
 import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.core.view.MIMShapes;
+import org.pathvisio.wikipathways.webservice.WSPathwayInfo;
 import org.wikipathways.client.WikiPathwaysClient;
 
 import wp.nar2018.Utils;
@@ -37,7 +40,9 @@ public class QuarterlyMetaboliteCounts {
 	private Organism org = Organism.HomoSapiens;
 	// pathways to be included (all for selected species except Tutorial
 	// pathways)
-	private List<String> inclPathways;
+	private List<WSPathwayInfo> inclPathways;
+	
+	private File pathwayFolder = new File("C:/Users/martina.kutmon/owncloud/Data/WikiPathways/pathways-cache/");
 	
 	private IDMapper metMapper;
 	
@@ -47,7 +52,7 @@ public class QuarterlyMetaboliteCounts {
 	
 	public QuarterlyMetaboliteCounts() throws Exception {
 		client = new WikiPathwaysClient(new URL("http://webservice.wikipathways.org"));
-		inclPathways = new ArrayList<String>();
+		inclPathways = new ArrayList<WSPathwayInfo>();
 		snapShots = new HashMap<Integer, Map<Integer,Map<String, Integer>>>();
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -65,9 +70,9 @@ public class QuarterlyMetaboliteCounts {
 		QuarterlyMetaboliteCounts mg = new QuarterlyMetaboliteCounts();
 		mg.inclPathways = Utils.getPathways(mg.client, mg.org);
 		mg.snapShots = Utils.getQuarterlySnapshots(mg.today, mg.org, mg.startYear, mg.endYear, mg.inclPathways, mg.client);
-		File pathwayFolder = new File("pathways");
-		pathwayFolder.mkdir();
-		Utils.downloadPathwayFilesQuarterly(mg.snapShots, pathwayFolder, mg.client);
+		
+		mg.pathwayFolder.mkdir();
+		Utils.downloadPathwayFilesQuarterly(mg.snapShots, mg.pathwayFolder, mg.client);
 		
 		System.out.println("calculate metabolite statistics");
 		Map<String, Set<Xref>> xrefs = new HashMap<String, Set<Xref>>();
@@ -80,7 +85,7 @@ public class QuarterlyMetaboliteCounts {
 						xrefs.put(key, new HashSet<Xref>());
 						Pathway p = new Pathway();
 						try {
-							p.readFromXml(new File(pathwayFolder, pwId + "_" + rev + ".gpml"), false);
+							p.readFromXml(new File(mg.pathwayFolder, pwId + "_" + rev + ".gpml"), false);
 							for(PathwayElement e : p.getDataObjects()) {
 								if(e.getObjectType().equals(ObjectType.DATANODE)) {
 									if(e.getDataNodeType().equals("Metabolite")) {

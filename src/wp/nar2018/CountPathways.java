@@ -2,15 +2,19 @@ package wp.nar2018;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.pathvisio.wikipathways.webservice.WSCurationTag;
 import org.pathvisio.wikipathways.webservice.WSPathwayInfo;
 import org.wikipathways.client.WikiPathwaysClient;
 
 
 /**
  * retrieve current number of pathways per species
+ * excluding test/tutorial pathways
  * @author mkutmon
  *
  */
@@ -22,11 +26,19 @@ public class CountPathways {
 		
 		Map<String, List<WSPathwayInfo>> map = new HashMap<String, List<WSPathwayInfo>>();
 		
+		WSCurationTag[] tutorial = client.getCurationTagsByName("Curation:Tutorial");
+		Set<String> tutorialPathways = new HashSet<String>();
+		for (WSCurationTag t : tutorial) {
+			tutorialPathways.add(t.getPathway().getId());
+		}
+		
 		for(WSPathwayInfo i : list) {
-			if(!map.containsKey(i.getSpecies())) {
-				map.put(i.getSpecies(), new ArrayList<WSPathwayInfo>());
+			if(!tutorialPathways.contains(i.getId())) {
+				if(!map.containsKey(i.getSpecies())) {
+					map.put(i.getSpecies(), new ArrayList<WSPathwayInfo>());
+				}
+				map.get(i.getSpecies()).add(i);
 			}
-			map.get(i.getSpecies()).add(i);
 		}
 		
 		int total = 0;

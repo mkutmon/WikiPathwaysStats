@@ -46,7 +46,7 @@ public class NotAnnotatedMetabolites {
 		
 		inclPathways = Utils.getPathways(client, org);
 		snapShots = Utils.getHistory(today, org, startYear, endYear, inclPathways, client);
-		File pathwayFolder = new File("pathways");
+		File pathwayFolder = new File("C:/Users/martina.kutmon/owncloud/Data/WikiPathways/pathways-cache/");
 		pathwayFolder.mkdir();
 		Utils.downloadPathwayFiles(snapShots, pathwayFolder, client);
 		

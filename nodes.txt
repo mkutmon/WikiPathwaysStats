@@ -1,0 +1,233 @@
+Key	PathwayName	PathwayID	Met
+WP554_92084	ACE Inhibitor Pathway	WP554	10
+WP528_79855	Acetylcholine Synthesis	WP528	9
+WP106_94196	Alanine and aspartate metabolism	WP106	26
+WP550_90171	Biogenic Amine Synthesis	WP550	17
+WP272_93044	Blood Clotting Cascade	WP272	1
+WP536_94305	Calcium Regulation in the Cardiac Cell	WP536	7
+WP558_90196	Complement and Coagulation Cascades	WP558	3
+WP466_89897	DNA Replication	WP466	6
+WP167_89514	Eicosanoid Synthesis	WP167	19
+WP111_89727	Electron Transport Chain	WP111	10
+WP314_87381	Fas Ligand (FasL) pathway and Stress induction of Heat Shock Proteins (HSP) regulation	WP314	8
+WP206_94194	Fatty Acid Omega Oxidation	WP206	4
+WP357_94197	Fatty Acid Biosynthesis	WP357	11
+WP306_92678	Focal Adhesion	WP306	1
+WP455_81793	GPCRs, Class A Rhodopsin-like	WP455	9
+WP35_88601	G Protein Signaling Pathways	WP35	3
+WP237_78497	Glucocorticoid &amp; Mineralcorticoid Metabolism	WP237	13
+WP500_94085	Glycogen Metabolism	WP500	8
+WP534_93722	Glycolysis and Gluconeogenesis	WP534	20
+WP561_93014	Heme Biosynthesis	WP561	12
+WP78_90661	TCA Cycle	WP78	12
+WP382_79951	MAPK Signaling Pathway	WP382	2
+WP368_94199	Mitochondrial LC-Fatty Acid Beta-Oxidation	WP368	5
+WP58_93101	Monoamine GPCRs	WP58	7
+WP170_71083	Nuclear Receptors	WP170	5
+WP299_89331	Nuclear Receptors in Lipid Metabolism and Toxicity	WP299	9
+WP80_68938	Nucleotide GPCRs	WP80	2
+WP404_68960	Nucleotide Metabolism	WP404	18
+WP408_94131	Oxidative Stress	WP408	1
+WP134_88600	Pentose Phosphate Pathway	WP134	17
+WP24_90195	Peptide GPCRs	WP24	2
+WP98_88906	Prostaglandin Synthesis and Regulation	WP98	10
+WP183_81161	Proteasome Degradation	WP183	1
+WP51_79977	Regulation of Actin Cytoskeleton	WP51	6
+WP247_74422	Small Ligand GPCRs	WP247	4
+WP289_89548	Myometrial Relaxation and Contraction Pathways	WP289	3
+WP430_90508	Statin Pathway	WP430	15
+WP496_69016	Steroid Biosynthesis	WP496	12
+WP311_68921	Synthesis and Degradation of Ketone Bodies	WP311	5
+WP231_89895	TNF alpha Signaling Pathway	WP231	3
+WP325_71223	Triacylglyceride Synthesis	WP325	12
+WP465_94086	Tryptophan metabolism	WP465	54
+WP497_94180	Urea cycle and metabolism of amino groups	WP497	43
+WP411_79980	mRNA Processing	WP411	2
+WP28_71888	Selenium Metabolism and Selenoproteins	WP28	7
+WP241_89671	One Carbon Metabolism	WP241	26
+WP399_90291	Wnt Signaling Pathway and Pluripotency	WP399	2
+WP322_90527	Osteoblast Signaling	WP322	1
+WP12_88602	Osteoclast Signaling	WP12	1
+WP143_93218	Fatty Acid Beta Oxidation	WP143	33
+WP136_80005	Phase I biotransformations, non P450	WP136	3
+WP521_88588	Amino acid conjugation of benzoic acid	WP521	6
+WP43_94176	Oxidation by Cytochrome P450	WP43	1
+WP197_91292	Cholesterol Biosynthesis	WP197	15
+WP422_72129	MAPK Cascade	WP422	3
+WP100_93097	Glutathione metabolism	WP100	23
+WP229_93199	Irinotecan Pathway	WP229	3
+WP15_94185	Selenium Micronutrient Network	WP15	99
+WP474_87977	Endochondral Ossification	WP474	3
+WP176_93690	Folate Metabolism	WP176	53
+WP391_71373	Mitochondrial Gene Expression	WP391	2
+WP3_92783	Transcriptional activation by NRF2	WP3	4
+WP75_83867	Toll-like Receptor Signaling Pathway	WP75	1
+WP615_81193	Senescence and Autophagy in Cancer	WP615	1
+WP623_86899	Oxidative phosphorylation	WP623	1
+WP661_88591	Glucose Homeostasis	WP661	22
+WP673_91869	ErbB Signaling Pathway	WP673	5
+WP678_94200	Arachidonate Epoxygenase / Epoxide Hydrolase	WP678	10
+WP688_94198	Catalytic cycle of mammalian Flavin-containing MonoOxygenases (FMOs)	WP688	2
+WP690_88335	Polyol Pathway	WP690	8
+WP691_92400	Tamoxifen metabolism	WP691	14
+WP692_94192	Sulfation Biotransformation Reaction	WP692	6
+WP694_89536	Arylamine metabolism	WP694	1
+WP696_89537	Benzo(a)pyrene metabolism	WP696	7
+WP697_94227	Estrogen metabolism	WP697	25
+WP698_94183	Glucuronidation	WP698	8
+WP699_93244	Aflatoxin B1 metabolism	WP699	7
+WP704_88909	Methylation Pathways	WP704	1
+WP706_92921	Sudden Infant Death Syndrome (SIDS) Susceptibility Pathways	WP706	14
+WP707_82937	DNA Damage Response	WP707	4
+WP712_78491	Estrogen signaling pathway	WP712	2
+WP715_94201	Amino acid conjugation	WP715	4
+WP716_83589	Vitamin A and Carotenoid Metabolism	WP716	21
+WP727_90193	Monoamine Transport	WP727	13
+WP732_80010	Serotonin Receptor 2 and ELK-SRF/GATA4 signaling	WP732	4
+WP733_74441	Serotonin Receptor 2 and STAT3 Signaling	WP733	1
+WP734_74438	Serotonin Receptor 4/6/7 and NR3C Signaling	WP734	2
+WP1403_90259	AMP-activated Protein Kinase (AMPK) Signaling	WP1403	7
+WP1422_94384	Sphingolipid Metabolism	WP1422	21
+WP1423_94289	Ganglio Sphingolipid Metabolism	WP1423	20
+WP1424_94290	Globo Sphingolipid Metabolism	WP1424	5
+WP1438_80038	Influenza A virus infection	WP1438	2
+WP1449_81172	Regulation of toll-like receptor signaling pathway	WP1449	2
+WP1455_89635	Serotonin Transporter Activity	WP1455	3
+WP1471_90258	Target Of Rapamycin (TOR) Signaling	WP1471	1
+WP1528_88320	Physiological and Pathological Hypertrophy  of the Heart	WP1528	1
+WP1530_84694	miRNA Regulation of DNA Damage Response	WP1530	4
+WP1531_82221	Vitamin D Metabolism	WP1531	7
+WP1533_85340	Vitamin B12 Metabolism	WP1533	50
+WP1541_94314	Energy Metabolism	WP1541	1
+WP1544_89794	MicroRNAs in cardiomyocyte hypertrophy	WP1544	3
+WP1584_81779	Type II diabetes mellitus	WP1584	3
+WP1589_92113	Folate-Alcohol and Cancer Pathway	WP1589	12
+WP1600_92822	Nicotine Metabolism	WP1600	11
+WP1601_94193	Fluoropyrimidine Activity	WP1601	19
+WP1602_78486	Nicotine Activity on Dopaminergic Neurons	WP1602	5
+WP1603_78574	Nicotine Activity on Chromaffin Cells	WP1603	2
+WP1604_89511	Codeine and Morphine Metabolism	WP1604	7
+WP1941_94179	Peroxisomal beta-oxidation of tetracosanoyl-CoA	WP1941	7
+WP1946_94218	Cori Cycle	WP1946	25
+WP1981_85189	Thyroxine (Thyroid Hormone) Production	WP1981	5
+WP1982_90425	Sterol Regulatory Element-Binding Proteins (SREBP) signalling	WP1982	6
+WP1984_93247	Integrated Breast Cancer Pathway	WP1984	27
+WP1995_88595	Effects of Nitric Oxide	WP1995	6
+WP2007_69751	Iron metabolism in placenta	WP2007	1
+WP2018_90016	RANKL/RANK (Receptor activator of NFKB (ligand)) Signaling Pathway	WP2018	2
+WP2059_87372	Alzheimers Disease	WP2059	6
+WP2118_71265	Arrhythmogenic Right Ventricular Cardiomyopathy	WP2118	3
+WP2190_88006	One carbon donor	WP2190	23
+WP2197_94181	Endothelin Pathways	WP2197	12
+WP2261_89520	Signaling Pathways in Glioblastoma	WP2261	2
+WP2267_85090	Synaptic Vesicle Pathway	WP2267	4
+WP2272_78594	Pathogenic Escherichia coli infection	WP2272	1
+WP2289_88593	Drug Induction of Bile Acid Pathway	WP2289	27
+WP2328_92211	Allograft Rejection	WP2328	11
+WP2333_72015	Trans-sulfuration pathway	WP2333	25
+WP2338_78504	miRNA Biogenesis	WP2338	1
+WP2355_94191	Corticotropin-releasing hormone signaling pathway	WP2355	4
+WP2366_89148	Butyrate-induced histone acetylation	WP2366	3
+WP2371_87374	Parkinsons Disease Pathway	WP2371	6
+WP2380_94178	Brain-Derived Neurotrophic Factor (BDNF) signaling pathway	WP2380	5
+WP2406_89157	Cardiac Progenitor Differentiation	WP2406	1
+WP2431_87678	Spinal Cord Injury	WP2431	9
+WP2436_93092	Dopamine metabolism	WP2436	28
+WP2447_85186	Amyotrophic lateral sclerosis (ALS)	WP2447	12
+WP2453_94220	TCA Cycle and Deficiency of Pyruvate Dehydrogenase complex (PDHc)	WP2453	26
+WP2456_89610	HIF1A and PPARG regulation of glycolysis	WP2456	13
+WP2457_88312	Phospholipid biosynthesis	WP2457	13
+WP2485_70025	NAD Biosynthesis II (from tryptophan)	WP2485	18
+WP2491_92287	Diclofenac Metabolic Pathway	WP2491	6
+WP2509_92315	Nanoparticle triggered autophagic cell death	WP2509	1
+WP2513_92316	Nanoparticle triggered regulated necrosis	WP2513	6
+WP2525_87802	Trans-sulfuration and one carbon metabolism	WP2525	36
+WP2526_82681	PDGF Pathway	WP2526	7
+WP2533_93096	Glycerophospholipid Biosynthetic Pathway	WP2533	47
+WP2536_92288	Colchicine Metabolic Pathway	WP2536	3
+WP2542_92293	Sulindac Metabolic Pathway	WP2542	4
+WP2572_90019	Primary Focal Segmental Glomerulosclerosis FSGS	WP2572	3
+WP2583_86147	T-Cell Receptor and Co-stimulatory Signaling	WP2583	4
+WP2586_91687	Aryl Hydrocarbon Receptor	WP2586	1
+WP2596_87520	Gastric acid production	WP2596	6
+WP2597_87647	Secretion of Hydrochloric Acid in Parietal Cells	WP2597	5
+WP2636_89423	Common Pathways Underlying Drug Addiction	WP2636	2
+WP2646_92384	Lidocaine metabolism	WP2646	8
+WP2795_85087	Cardiac Hypertrophic Response	WP2795	5
+WP2816_92386	Felbamate Metabolism	WP2816	7
+WP2826_92529	Cocaine metabolism	WP2826	7
+WP2848_89940	Differentiation Pathway	WP2848	13
+WP2855_87239	Dopaminergic Neurogenesis	WP2855	1
+WP2868_90260	TCA Cycle Nutrient Utilization and Invasiveness of Ovarian Cancer	WP2868	5
+WP2873_88902	Aryl Hydrocarbon Receptor Pathway	WP2873	1
+WP2874_88692	Liver X Receptor Pathway	WP2874	1
+WP2875_89203	Constitutive Androstane Receptor Pathway	WP2875	1
+WP2878_88342	PPAR Alpha Pathway	WP2878	1
+WP2879_88056	Farnesoid X Receptor  Pathway	WP2879	1
+WP2881_88032	Estrogen Receptor Pathway	WP2881	1
+WP2884_87956	NRF2 pathway	WP2884	1
+WP2889_88286	Oxytocin signaling	WP2889	2
+WP3286_93705	Copper homeostasis	WP3286	3
+WP3287_89371	Overview of nanoparticle effects	WP3287	2
+WP3297_88048	EV release from cardiac cells and their functional effects	WP3297	3
+WP3298_91618	Melatonin metabolism and effects	WP3298	18
+WP3301_94277	MFAP5-mediated ovarian cancer cell motility and invasiveness	WP3301	4
+WP3303_94281	Rac1/Pak1/p38/MMP-2 pathway	WP3303	2
+WP3408_88049	Evolocumab Mechanism	WP3408	1
+WP3414_87386	Initiation of transcription and translation elongation at the HIV-1 LTR	WP3414	2
+WP3584_91190	MECP2 and Associated Rett Syndrome	WP3584	8
+WP3585_88828	Cytosine methylation	WP3585	9
+WP3599_88581	Transcription factor regulation in adipogenesis	WP3599	1
+WP3601_89202	Composition of Lipid Particles	WP3601	10
+WP3604_84660	Biochemical Pathways Part I	WP3604	477
+WP3624_92327	Lung fibrosis	WP3624	1
+WP3627_90137	Gut-Liver Indole Metabolism 	WP3627	5
+WP3630_94184	NAD metabolism, sirtuins and aging	WP3630	3
+WP3633_85154	Caffeine and Theobromine metabolism	WP3633	11
+WP3634_86060	Insulin signalling in human adipocytes (normal condition)	WP3634	4
+WP3635_86059	Insulin signalling in human adipocytes (diabetic condition)	WP3635	2
+WP3640_89384	Imatinib and Chronic Myeloid Leukemia	WP3640	2
+WP3644_89859	NAD+ metabolism	WP3644	11
+WP3645_90261	NAD+ biosynthetic pathways	WP3645	12
+WP3655_88473	Hypothetical Craniofacial Development Pathway	WP3655	2
+WP3664_93253	Regulation of Wnt/B-catenin Signaling by Small Molecule Compounds	WP3664	15
+WP3676_94186	BDNF-TrkB Signaling	WP3676	3
+WP3679_94188	Cell-type Dependent Selectivity of CCK2R Signaling	WP3679	11
+WP3680_90113	Association Between Physico-Chemical Features and Toxicity Associated Pathways	WP3680	7
+WP3844_89952	PI3K-AKT-mTOR signaling pathway and therapeutic opportunities	WP3844	2
+WP3853_89748	ERK Pathway in Huntington's Disease	WP3853	1
+WP3863_90702	T-Cell antigen Receptor (TCR) pathway during Staphylococcus aureus infection	WP3863	2
+WP3871_94406	Valproic acid pathway	WP3871	21
+WP3876_90122	BMP2-WNT4-FOXO1 Pathway in Human Primary Endometrial Stromal Cell Differentiation	WP3876	1
+WP3877_89291	Simplified Depiction of MYD88 Distinct Input-Output Pathway	WP3877	1
+WP3878_89745	ATM Signaling Network in Development and Disease 	WP3878	1
+WP3879_90124	4-hydroxytamoxifen, Dexamethasone, and Retinoic Acids Regulation of p27 Expression	WP3879	11
+WP3891_89359	Benzene metabolism	WP3891	10
+WP3915_93137	Angiopoietin Like Protein 8 Regulatory Pathway	WP3915	11
+WP3925_90737	Amino Acid metabolism	WP3925	100
+WP3926_90739	ApoE and miR-146 in inflammation and atherosclerosis	WP3926	2
+WP3929_90949	Chemokine signaling pathway	WP3929	8
+WP3931_94310	ESC Pluripotency Pathways	WP3931	5
+WP3932_94216	Focal Adhesion-PI3K-Akt-mTOR-signaling pathway	WP3932	2
+WP3933_94213	Kennedy pathway	WP3933	22
+WP3934_90768	Leptin and adiponectin	WP3934	2
+WP3935_90771	Leptin Insulin Overlap	WP3935	2
+WP3937_94208	Microglia Pathogen Phagocytosis Pathway	WP3937	2
+WP3940_94312	One carbon metabolism and related pathways	WP3940	58
+WP3942_94205	PPAR signaling pathway	WP3942	7
+WP3944_90836	Serotonin and anxiety-related events	WP3944	2
+WP3946_90940	White fat cell differentiation	WP3946	2
+WP3947_91925	Serotonin and anxiety	WP3947	3
+WP3958_91307	GPR40 Pathway	WP3958	2
+WP3971_91525	Role of Osx and miRNAs in tooth development	WP3971	1
+WP3981_94297	miRNA regulation of prostate cancer signaling pathways	WP3981	2
+WP3982_94298	miRNA regulation of p53 pathway in prostate cancer	WP3982	3
+WP3995_93157	Prion disease pathway	WP3995	2
+WP3996_93015	Ethanol effects on histone modifications	WP3996	14
+WP3998_94376	Prader-Willi and Angelman Syndrome	WP3998	2
+WP4008_92677	NO/cGMP/PKG mediated Neuroprotection	WP4008	12
+WP4022_94174	Pyrimidine metabolism	WP4022	63
+WP4030_93221	SCFA and skeletal muscle substrate metabolism	WP4030	4
+WP4142_94288	Metabolism of Spingolipids in ER and Golgi apparatus	WP4142	53
+WP4148_94396	Splicing factor NOVA regulated synaptic proteins	WP4148	1
+WP4149_94399	White fat cell differentiation	WP4149	2

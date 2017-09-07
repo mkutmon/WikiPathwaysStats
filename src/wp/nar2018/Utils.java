@@ -46,6 +46,20 @@ public class Utils {
 		return inclPathways;
 	}
 	
+	public static List<WSPathwayInfo> getCuratedPathways(WikiPathwaysClient client, Organism org) throws Exception {
+		WSCurationTag [] list = client.getCurationTagsByName("Curation:AnalysisCollection");
+		List<WSPathwayInfo> inclPathways = new ArrayList<WSPathwayInfo>();
+		
+		for(WSCurationTag t : list) {
+			System.out.println(t.getPathway().getSpecies() + "\t" + org.latinName());
+			if(t.getPathway().getSpecies().equals(org.latinName())) {
+				inclPathways.add(t.getPathway());
+			}
+		}
+		
+		return inclPathways;
+	}
+	
 	/**
 	 * downloads all GPML files for each pathway revision needed only if file
 	 * does not yet occur in pathway folder
@@ -167,7 +181,7 @@ public class Utils {
 		return snapShots;
 	}
 	
-	public static Map<Integer, Map<Integer, Map<String, Integer>>> getQuarterlySnapshots(String today, Organism org, int startYear, int endYear, List<String> pathways, WikiPathwaysClient client) throws Exception {
+	public static Map<Integer, Map<Integer, Map<String, Integer>>> getQuarterlySnapshots(String today, Organism org, int startYear, int endYear, List<WSPathwayInfo> pathways, WikiPathwaysClient client) throws Exception {
 		Map<Integer, Map<Integer, Map<String, Integer>>> snapShots = new HashMap<Integer, Map<Integer, Map<String, Integer>>>();
 		File output = new File("snapshotsQ_" + org.shortName() + "_" + today + ".txt");
 		if (!output.exists()) {
@@ -182,7 +196,8 @@ public class Utils {
 				quarters.put(12, new HashMap<>());
 				snapShots.put(i, quarters);
 			}
-			for (String pwId : pathways) {
+			for (WSPathwayInfo info : pathways) {
+				String pwId = info.getId();
 				WSPathwayHistory hist = client.getPathwayHistory(pwId, c.getTime());
 				for (WSHistoryRow row : hist.getHistory()) {
 					// rows always come in order (oldest revision first)
