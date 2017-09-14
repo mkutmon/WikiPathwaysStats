@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -84,6 +85,7 @@ public class ProteinCodingGenes {
 	}
 	
 	private static Set<String> getGOMetGenes(File f, IDMapper mapper) throws Exception {
+		System.out.println("get GO metabolite process genes");
 		Set<String> metProcessGenes = new HashSet<String>();
 		BufferedReader reader = new BufferedReader(new FileReader(f));
 		String line;
@@ -99,6 +101,7 @@ public class ProteinCodingGenes {
 	}
 	
 	private static Set<String> getDiseaseGenes() throws Exception {
+		System.out.println("get disease genes");
 		Set<String> diseaseGenes = new HashSet<String>();
 		URL url = new URL("https://omim.org/static/omim/data/mim2gene.txt");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -117,9 +120,10 @@ public class ProteinCodingGenes {
 	}
 
 	private static Set<String> getUniqueGenesFromPathways(File pathwayFolder, Organism org, IDMapper mapper) throws Exception {
+		System.out.println("get unique pathway genes");
 		// retrieve pathways for selected species
 		WikiPathwaysClient client = new WikiPathwaysClient(new URL("http://webservice.wikipathways.org"));
-		WSPathwayInfo [] list = client.listPathways(org);
+		List<WSPathwayInfo> list = Utils.getPathways(client, Organism.HomoSapiens);
 		Set<String> uniqueGenes = new HashSet<String>();
 		pathwayFolder.mkdir();
 		for(WSPathwayInfo i : list) {
@@ -146,6 +150,7 @@ public class ProteinCodingGenes {
 	 * reads file from BioMART (first column containing ENSG identifier for protein-coding genes)
 	 */
 	private static Set<String> getProteinCodingGenes(File f) throws Exception {
+		System.out.println("get Ensembl protein coding genes");
 		BufferedReader reader = new BufferedReader(new FileReader(f));
 		String line;
 		Set<String> proteinCoding = new HashSet<String>();
